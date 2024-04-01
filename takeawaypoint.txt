@@ -1,0 +1,75 @@
+in package json add 
+    "type":"module",
+if we do so, js will support import ,export feature
+
+
+frontend requests backend request are:(CRUD)
+    create -> post
+    read    -> get
+    update  ->patch
+    delete  ->delete
+
+
+Making API means frontend request backend 
+                and
+ backend does the task according to the request
+
+
+ To request we need url and method
+
+
+
+ url=localhost:8000/trainees/123?name=nitan & age=30 & address=gagalfeddi
+ url=route?query
+ route=baseUrl + routeParams
+
+
+
+one request must have one response
+
+
+middleware  
+    function which has request,res,next are called middlewares
+    next() is used to trigger another middleware
+
+
+                Two types of Middleware base on error
+
+normal middleware= (req,res,next)=>{} to trigger another middleware we call next()
+error middleware= (err,req,res,next)=>{} to trigger another middleware we call next(data)
+
+
+                Two types of Middleware base on location
+
+route middleware => defined in route
+application middleware => define in index.js (or main file)
+
+
+
+
+we have to define structure of data 
+
+define array (model) 
+name object
+define object (schema)
+
+
+
+
+Rules of Model 
+    variable name must be same as model name
+    model name must be of first letter capital
+    model name must be singular
+
+
+
+To make a CRUD
+    1 schema
+    2 model
+    3 controller
+    3 route
+    4 index 
+
+
+////in Searching type doesn't matter
+
