@@ -73,3 +73,24 @@ To make a CRUD
 
 ////in Searching type doesn't matter
 
+
+
+//dotenv
+//file
+//define variable
+//call variable
+
+//you must make dotenv file in root directory
+
+in dot env file we write 
+  
+    //sensitive
+        email,password
+
+    //port
+       url
+
+
+    cors(cross-origin-resource-sharing)
+     cors => enable
+

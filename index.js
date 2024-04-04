@@ -13,12 +13,28 @@ import traineeRouter from "./src/router/traineeRouter.js"
 import collegeRouter from "./src/router/collegeRouter.js"
 import classroomRouter from "./src/router/classroomRouter.js"
 import departmentRouter from "./src/router/departmentRouter.js"
-
+import { config } from "dotenv"
+import cors from "cors"
 
 
 //make express application
 let expressApp=express()
+expressApp.use(cors())
 expressApp.use(json())//this code makes our system to take json data , always place express.use(json())just below the expressApp
+
+
+config()//*********configuration for dot env
+console.log(process.env.FULL_NAME)
+console.log(process.env.AGE)
+console.log( process.env.IS_MARRIED)
+
+
+
+
+
+
+
+
 
 //attach port to that
 connectToMongoDb()
