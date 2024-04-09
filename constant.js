@@ -4,7 +4,7 @@ config()
 
 export const password=process.env.PASSWORD
 export const email=process.env.EMAIL
-// export const secretKey=process.env.SECRET_KEY
+export const secretKey=process.env.SECRET_KEY
 
 
 

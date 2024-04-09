@@ -15,6 +15,7 @@ import classroomRouter from "./src/router/classroomRouter.js"
 import departmentRouter from "./src/router/departmentRouter.js"
 import { config } from "dotenv"
 import cors from "cors"
+import webUserRouter from "./src/router/webUserRouter.js"
 
 
 //make express application
@@ -24,9 +25,9 @@ expressApp.use(json())//this code makes our system to take json data , always pl
 
 
 config()//*********configuration for dot env
-console.log(process.env.FULL_NAME)
-console.log(process.env.AGE)
-console.log( process.env.IS_MARRIED)
+// console.log( process.env.EMAIL);
+// console.log( process.env.PASSWORD);
+// console.log( process.env.DB_URL);
 
 
 
@@ -60,6 +61,7 @@ expressApp.use("/trainees",traineeRouter)//localhost:8000/trainees
 expressApp.use("/colleges",collegeRouter)//localhost:8000/college
 expressApp.use("/classrooms",classroomRouter)//localhost:8000/classroom
 expressApp.use("/departments",departmentRouter)//localhost:8000/department
+expressApp.use("/web-users",webUserRouter)//localhost:8000/webUser
 
 
 expressApp.listen(8000,()=>{

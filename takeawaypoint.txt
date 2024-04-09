@@ -94,3 +94,48 @@ in dot env file we write
     cors(cross-origin-resource-sharing)
      cors => enable
 
+
+
+
+
+
+
+login management
+ 1. Register
+ 2. login
+ 3. my profile
+ 4. my profile update
+ 5. update password
+ 6. forgot and reset password
+ 7. delete user
+ 8. read all user
+ 9. read specific user
+
+
+
+ 1. Register process
+    a. save data to database  => Register
+            //fullName
+            //email
+            //password
+            //dob
+            //gender
+            //role => superAdmin, admin , customer
+            //isVerifiedEmail
+
+
+    b. verify email
+            //postman token
+            //get token
+            //verify token
+            //get _id form token
+            //make isVerifiedEmail true
+
+2.Login
+    //email and password
+    //check if that email exist in our database => (if email not found throw error)
+    //check if that email verified => (if not, throw error)
+    //check if the password match with hashed password in db =>(if no match throw error)
+    //generate token => (attach _id)
+    //send back token to postman
+

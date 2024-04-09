@@ -9,6 +9,7 @@ import traineeSchema from "./traineeSchema.js";
 import collegeSchema from "./collegeSchema.js";
 import classroomSchema from "./classRoomSchema.js";
 import departmentSchema from "./departmentSchema.js";
+import webUserSchema from "./webUserSchema.js";
 
 
 export let Student =model("Student",studentSchema)
@@ -21,6 +22,7 @@ export let Trainee=model("Trainee",traineeSchema)
 export let College=model("College",collegeSchema)
 export let Classroom=model("Classroom",classroomSchema)
 export let Department=model("Department",departmentSchema)
+export let WebUser=model("WebUser",webUserSchema)
 
 
 /* 
