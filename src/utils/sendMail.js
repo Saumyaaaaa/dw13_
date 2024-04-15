@@ -15,8 +15,8 @@ let transporterInfo = {
   auth: {
     // note user and pass most be genuine
     //it is the email through which email is send
-    user: " saumyaneupane@gmail.com",
-    pass: " hceb zmeu zyhz vobu",
+    user: "saumyaneupane@gmail.com",
+    pass: "hceb zmeu zyhz vobu",
     // to send email form server first you have to =>
     //use 2-step verification and generate app password
     //instead of using your password use app password of gmail

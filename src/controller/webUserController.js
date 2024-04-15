@@ -150,8 +150,12 @@ export const updateProfile = async (req, res, next) => {
     let data = req.body;
     delete data.email;
     delete data.password;
-     
+
+    console.log(_id)
+
     let result = await WebUser.findByIdAndUpdate(_id, data, { new: true });
+
+    console.log("*****", result);
     res.status(201).json({
       success: true,
       message: "profile updated successfully",
