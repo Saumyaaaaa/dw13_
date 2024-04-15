@@ -2,7 +2,7 @@ import { WebUser } from "../schema/model.js";
 import bcrypt from "bcrypt";
 import { sendEmail } from "../utils/sendMail.js";
 import jwt from "jsonwebtoken";
-import { secretKey } from "../../constant.js";
+import { password, secretKey } from "../../constant.js";
 
 export let createWebUserController = async (req, res, next) => {
   try {
@@ -39,13 +39,13 @@ export let createWebUserController = async (req, res, next) => {
             </a>`,
     });
 
-    res.json({
+    res.status(201).json({
       success: true,
       message: "user created successfully",
       data: result,
     });
   } catch (error) {
-    res.json({
+    res.status(400).json({
       success: false,
       message: error.message,
     });
@@ -71,12 +71,12 @@ export const verifyEmail = async (req, res, next) => {
         new: true,
       }
     );
-    res.json({
+    res.status(201).json({
       success: true,
-      message: "user verified read successfully",
+      message: "user verified  successfully",
     });
   } catch (error) {
-    res.json({
+    res.status(400).json({
       success: false,
       message: error.message,
     });
@@ -96,15 +96,16 @@ export const loginUser = async (req, res, next) => {
           let infoObj = {
             _id: user._id,
           };
-        
+
           let expiryInfo = {
             expiresIn: "365d",
           };
           let token = await jwt.sign(infoObj, secretKey, expiryInfo);
-          res.json({
+          res.status(200).json({
             success: true,
             message: "user login successful.",
-            data:token
+            data: user,
+            token: token,
           });
         } else {
           let error = new Error("credential does not match");
@@ -119,71 +120,219 @@ export const loginUser = async (req, res, next) => {
       throw error;
     }
   } catch (error) {
-    res.json({
+    res.status(400).json({
       success: false,
       message: error.message,
     });
   }
 };
 
-export let readWebUserController = async (req, res, next) => {
+export const myProfile = async (req, res, next) => {
   try {
-    let result = await WebUser.find({}).select("name -_id");
+    let _id = req._id;
+    let result = await WebUser.findById(_id);
+    res.status(200).json({
+      success: true,
+      message: "profile read successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: " unable to read  profile",
+    });
+  }
+};
 
-    res.json({
+export const updateProfile = async (req, res, next) => {
+  try {
+    let _id = req._id;
+    let data = req.body;
+    delete data.email;
+    delete data.password;
+    let result = await WebUser.findByIdAndUpdate(_id, data, { new: true });
+    res.status(201).json({
       success: true,
-      message: "webWebUser read successfully",
-      result: result,
+      message: "profile updated successfully",
+      data: result,
     });
   } catch (error) {
-    res.json({
+    req.status(400).json({
       success: false,
       message: error.message,
     });
   }
 };
-export let readSpecificWebUserController = async (req, res, next) => {
+export const updatePassword = async (req, res, next) => {
   try {
-    let result = await WebUser.findById(req.params.id); //{id:22734y3}
-    res.json({
-      success: true,
-      message: "webWebUser read successfully",
-      result: result,
-    });
+    let _id = req._id;
+    let oldPassword = req.body.oldPassword;
+    let newPassword = req.body.newPassword;
+
+    let data = await WebUser.findById(_id);
+    let hashPassword = data.password;
+
+    let isValidPassword = await bcrypt.compare(oldPassword, hashPassword);
+    if (isValidPassword) {
+      let newHashPassword = await bcrypt.hash(newPassword, 10);
+      let result = await WebUser.findByIdAndUpdate(
+        _id,
+        {
+          password: newHashPassword,
+        },
+        { new: true }
+      );
+      res.status(201).json({
+        success: true,
+        message: "Updated password successfully.",
+        data: result,
+      });
+    } else {
+      let error = new Error("credential does not match");
+      throw error;
+    }
   } catch (error) {
-    res.json({
+    res.status(400).json({
       success: false,
       message: error.message,
     });
   }
 };
-export let updateWebUserController = async (req, res, next) => {
+
+export const readAllUser = async (req, res, next) => {
   try {
-    let result = await WebUser.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    res.json({
+    let result = await WebUser.find({});
+    res.status(200).json({
       success: true,
-      message: "webWebUser updated successfully",
-      result: result,
+      message: "All user read successfully.",
+      data: result,
     });
   } catch (error) {
-    res.json({
+    res.status(400).json({
       success: false,
       message: error.message,
     });
   }
 };
-export let deleteWebUserController = async (req, res, next) => {
+
+export const readSpecificUser = async (req, res, next) => {
   try {
-    let result = await WebUser.findByIdAndDelete(req.params.id);
-    res.json({
+    let id = req.params.id;
+    let result = await WebUser.findById(id);
+
+    res.status(200).json({
       success: true,
-      message: "webWebUser deleted successfully",
-      result: result,
+      message: " user read successfully.",
+      data: result,
     });
   } catch (error) {
-    res.json({
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const updateSpecificUser = async (req, res, next) => {
+  try {
+    let id = req.params.id;
+    let data = req.body;
+    delete data.email;
+    delete data.password;
+    let result = await WebUser.findByIdAndUpdate(id, data, { new: true });
+
+    res.status(201).json({
+      success: true,
+      message: " user updated successfully.",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const deleteSpecificUser = async (req, res) => {
+  try {
+    let id = req.params.id;
+    let result = await WebUser.findByIdAndDelete(id);
+
+    res.status(200).json({
+      success: true,
+      message: " user deleted successfully.",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  try {
+    let email = req.body.email;
+    let result = await WebUser.findOne({ email: email }); //result= null or result ={...}
+    if (result) {
+      let infoObj = {
+        _id: result._id,
+      };
+
+      let expiryInfo = {
+        expiresIn: "5d",
+      };
+      let token = await jwt.sign(infoObj, secretKey, expiryInfo);
+
+      await sendEmail({
+        from: '"Hello" <saumyaneupane@gmail.com>',
+        to: email,
+        subject: "Reset password",
+        html: `<h1>Please click given link to reset your password.</h1>
+         <a href="http://localhost:3000/reset-password?token=${token}">
+             "http://localhost:3000/reset-password?token=${token}
+            </a>`,
+      });
+
+      res.status(200).json({
+        success: true,
+        message: " To reset password link has been sent.",
+        //  data: result,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "email does not exist",
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    let hashPassword = await bcrypt.hash(req.body.password, 10);
+    let result = await WebUser.findByIdAndUpdate(
+      req._id,
+      {
+        password: hashPassword,
+      },
+      { new: true }
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "Password reset Successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
       success: false,
       message: error.message,
     });

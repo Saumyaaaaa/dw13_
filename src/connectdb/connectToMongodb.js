@@ -1,7 +1,17 @@
 import mongoose from "mongoose"
+import { dbURL } from "../../constant.js"
 
-let connectToMongoDb = ()=>{
-        mongoose.connect("mongodb://0.0.0.0:27017/dw13")
+let connectToMongoDb = async()=>{
+
+try {
+        await mongoose.connect(`${dbURL}`);
+        console.log(`applivation is connected to database successfully at port ${dbURL}`);
+} catch (error) {
+        console.log(error.message)
+}
+
+
+
 }
 
 export default connectToMongoDb
