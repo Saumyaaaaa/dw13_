@@ -16,10 +16,16 @@ import departmentRouter from "./src/router/departmentRouter.js"
 import { config } from "dotenv"
 import cors from "cors"
 import webUserRouter from "./src/router/webUserRouter.js"
+import fileRouter from "./src/router/fileRouter.js"
 
 
 //make express application
 let expressApp=express()
+
+
+expressApp.use(express.static("./public")) //localhost:8000/model.jpg
+//http://localhost:8000/ram/smile.jpg
+
 expressApp.use(cors())
 expressApp.use(json())//this code makes our system to take json data , always place express.use(json())just below the expressApp
 
@@ -58,10 +64,12 @@ expressApp.use("/users",userRouter)//localhost:8000/users
 expressApp.use("/reviews",reviewRouter)//localhost:8000/reviews
 expressApp.use("/books",bookRouter)//localhost:8000/books
 expressApp.use("/trainees",traineeRouter)//localhost:8000/trainees
-expressApp.use("/colleges",collegeRouter)//localhost:8000/college
-expressApp.use("/classrooms",classroomRouter)//localhost:8000/classroom
-expressApp.use("/departments",departmentRouter)//localhost:8000/department
-expressApp.use("/web-users",webUserRouter)//localhost:8000/webUser
+expressApp.use("/colleges",collegeRouter)//localhost:8000/colleges
+expressApp.use("/classrooms",classroomRouter)//localhost:8000/classrooms
+expressApp.use("/departments",departmentRouter)//localhost:8000/departments
+expressApp.use("/web-users",webUserRouter)//localhost:8000/webUsers
+expressApp.use("/files",fileRouter)//localhost:8000/files
+
 
 
 expressApp.listen(8000,()=>{

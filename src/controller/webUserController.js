@@ -150,6 +150,7 @@ export const updateProfile = async (req, res, next) => {
     let data = req.body;
     delete data.email;
     delete data.password;
+     
     let result = await WebUser.findByIdAndUpdate(_id, data, { new: true });
     res.status(201).json({
       success: true,

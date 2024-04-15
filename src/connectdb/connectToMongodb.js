@@ -5,7 +5,7 @@ let connectToMongoDb = async()=>{
 
 try {
         await mongoose.connect(`${dbURL}`);
-        console.log(`applivation is connected to database successfully at port ${dbURL}`);
+        console.log(`application is connected to database successfully at port ${dbURL}`);
 } catch (error) {
         console.log(error.message)
 }
