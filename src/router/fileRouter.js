@@ -1,16 +1,21 @@
 
 
 import { Router } from "express"
-import {  handleSingleFileController } from "../controller/fileController.js"
+import {  handleMultipleFileController, handleSingleFileController } from "../controller/fileController.js"
+import upload from "../utils/uploadFile.js"
+
 
 
 let fileRouter=Router()
 
 
 fileRouter
-.route("/")
-.post(handleSingleFileController )
+.route("/single") //localhost:8000/files/single
+.post(upload.single("document"), handleSingleFileController )//req.file,req.body
 
 
+fileRouter
+  .route("/multiple") //localhost:8000/files/multiple
+  .post(upload.array("document"), handleMultipleFileController);//req.files[], req.body
 
 export default fileRouter
